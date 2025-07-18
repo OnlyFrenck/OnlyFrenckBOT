@@ -1,0 +1,27 @@
+{
+  "name": "oftteamsupport-bot",
+  "version": "1.0.0",
+  "description": "discord bot for OFT Fortnite Team",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OnlyFrenck/OFTTeamSupport.git"
+  },
+  "author": "OFT Developers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OnlyFrenck/OFTTeamSupport/issues"
+  },
+  "homepage": "https://github.com/OnlyFrenck/OFTTeamSupport#readme",
+  "dependencies": {
+    "canvacord": "^6.0.2",
+    "discord.js": "^14.21.0",
+    "dotenv": "^17.2.0",
+    "mongoose": "^8.16.4",
+    "ms": "^2.1.3",
+    "pretty-ms": "^9.2.0"
+  }
+}
