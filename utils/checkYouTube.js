@@ -33,7 +33,7 @@ module.exports = async (client) => {
         .setURL(`https://www.youtube.com/watch?v=${videoId}`)
         .setThumbnail(snippet.thumbnails.high.url)
         .setDescription(
-          `${isLive ? `<@&1274029630961221756> 🔴 **LIVE ora** su **${snippet.channelTitle}!**` : `<@1274029630961221756> 📹 **Nuovo video** su **${snippet.channelTitle}!**`}\n\n` +
+          `${isLive ? `@everyone 🔴 **LIVE ora** su **${snippet.channelTitle}!**` : `@everyone 📹 **Nuovo video** su **${snippet.channelTitle}!**`}\n\n` +
           `**Titolo:** ${snippet.title}\n` +
           (elapsed ? `\n${elapsed}` : '')
         )

@@ -61,7 +61,7 @@ module.exports = async (client) => {
       const embed = new EmbedBuilder()
         .setTitle(stream.title)
         .setURL(`https://twitch.tv/${config.twitchUserLogin}`)
-        .setDescription(`🔴 **${stream.user_name} è in LIVE su Twitch!**`)
+        .setDescription(`@everyone 🔴 **${stream.user_name} è in LIVE su Twitch!**`)
         .setImage(stream.thumbnail_url.replace('{width}', '640').replace('{height}', '360') + `?rand=${Date.now()}`)
         .setColor(0x9146FF)
         .setTimestamp(new Date(stream.started_at));
