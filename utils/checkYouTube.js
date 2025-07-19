@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const moment = require('moment');
-const YouTubeVideo = require('../models/YouTubeVideo');
+const YouTubeVideo = require('../models/YouTubeContent');
 const channelConfigs = require('../config/youtubeChannels');
 
 const API_KEY = process.env.YT_API_KEY;
