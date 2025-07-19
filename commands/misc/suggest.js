@@ -1,7 +1,8 @@
 const { PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 
-// ID del canale dove vuoi ricevere i suggerimenti
-const SUGGESTION_CHANNEL_ID = "123456789012345678"; // sostituisci con il tuo ID
+// ID del canale principale e del canale secondario
+const SUGGESTION_CHANNEL_ID = "1274037192469254246"; // canale principale
+const LOG_CHANNEL_ID = "1274037456748154961"; // canale secondario, es. log o staff
 
 module.exports = {
   name: "suggest",
@@ -14,21 +15,24 @@ module.exports = {
       required: true,
     },
   ],
-  permissionsRequired: [], // nessun permesso necessario
-  botPermissions: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.AddReactions],
+  permissionsRequired: [],
+  botPermissions: [
+    PermissionFlagsBits.SendMessages,
+    PermissionFlagsBits.AddReactions,
+  ],
 
-  /**
-   * @param {import("discord.js").Client} client
-   * @param {import("discord.js").ChatInputCommandInteraction} interaction
-   */
   callback: async (client, interaction) => {
     await interaction.deferReply({ ephemeral: true });
 
     const suggestion = interaction.options.getString("testo");
     const suggestionChannel = interaction.guild.channels.cache.get(SUGGESTION_CHANNEL_ID);
+    const logChannel = interaction.guild.channels.cache.get(LOG_CHANNEL_ID);
 
     if (!suggestionChannel) {
       return interaction.editReply("❌ Canale suggerimenti non trovato. Contatta un amministratore.");
+    }
+    if (!logChannel) {
+      return interaction.editReply("❌ Canale log non trovato. Contatta un amministratore.");
     }
 
     const embed = new EmbedBuilder()
@@ -42,6 +46,8 @@ module.exports = {
       const sentMessage = await suggestionChannel.send({ embeds: [embed] });
       await sentMessage.react("👍");
       await sentMessage.react("👎");
+
+      await logChannel.send({ embeds: [embed] });
 
       await interaction.editReply("✅ Grazie per il tuo suggerimento! Lo staff lo valuterà.");
     } catch (error) {
