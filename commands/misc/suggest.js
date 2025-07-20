@@ -1,8 +1,9 @@
 const { PermissionFlagsBits, EmbedBuilder } = require("discord.js");
+const config = require("../../config/server/channels.json");
 
 // ID del canale principale e del canale secondario
-const SUGGESTION_CHANNEL_ID = "1274037192469254246"; // canale principale
-const LOG_CHANNEL_ID = "1274037456748154961"; // canale secondario, es. log o staff
+const SUGGESTION_CHANNEL_ID = config.categoriaSuggestions["make-suggestions"].id; // canale principale
+const LOG_CHANNEL_ID = config.categoriaStaff.log.id; // canale secondario, es. log o staff
 
 module.exports = {
   name: "suggest",

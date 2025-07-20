@@ -1,4 +1,4 @@
-const { PermissionFlagsBits } = require("discord.js");
+const { PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const Ticket = require("../../models/Ticket");
 
 module.exports = {
@@ -17,8 +17,8 @@ module.exports = {
         const user = interaction.options.getUser("utente");
         const channel = interaction.channel;
 
-        const hasPermission = channel.permissionOverwrites.cache.get(user.id);
-        if (hasPermission) {
+        const overwrite = channel.permissionOverwrites.cache.get(user.id);
+        if (overwrite && overwrite.allow.has(PermissionFlagsBits.ViewChannel)) {
             return interaction.editReply("⚠️ Questo utente ha già accesso al ticket.");
         }
 
@@ -28,7 +28,14 @@ module.exports = {
             ReadMessageHistory: true
         });
 
-        await interaction.editReply(`✅ <@${user.id}> è stato aggiunto a questo ticket.`);
+        const embed = new EmbedBuilder()
+            .setColor("Green")
+            .setTitle("👤 Utente aggiunto al ticket")
+            .setDescription(`<@${user.id}> è stato aggiunto a questo ticket da <@${interaction.user.id}>.`)
+            .setTimestamp();
+
+        await channel.send({ embeds: [embed] });
+        await interaction.editReply(`✅ Utente aggiunto correttamente: <@${user.id}>`);
     },
 
     name: "add",
@@ -43,4 +50,4 @@ module.exports = {
     ],
     permissionsRequired: [PermissionFlagsBits.ManageChannels],
     botPermissions: [PermissionFlagsBits.ManageChannels]
-}
+};

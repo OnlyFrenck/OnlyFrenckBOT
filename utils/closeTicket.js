@@ -1,17 +1,30 @@
-const Ticket = require('../models/Ticket');
+const Ticket = require("../models/Ticket");
+const { ticketLogChannelId } = require("../config.json");
 
-module.exports = async function closeTicket(interaction) {
-    const ticket = await Ticket.findOne({ channelId: interaction.channel.id });
+module.exports = async (interaction) => {
+    const channel = interaction.channel;
+    const ticket = await Ticket.findOne({ channelId: channel.id });
+    if (!ticket) return;
 
-    if (!ticket) {
-        return interaction.reply({ content: "❌ Questo canale non è un ticket valido.", ephemeral: true });
+    // Log chiusura ticket
+    const logChannel = await interaction.guild.channels.fetch(ticketLogChannelId).catch(() => null);
+    if (logChannel) {
+        logChannel.send({
+            embeds: [
+                {
+                    title: "📤 Ticket Chiuso",
+                    color: 0xED4245,
+                    fields: [
+                        { name: "Utente", value: `<@${ticket.userId}>` },
+                        { name: "Canale", value: `#${channel.name}` },
+                        { name: "Chiuso da", value: `<@${interaction.user.id}>` },
+                        { name: "Data", value: `<t:${Math.floor(Date.now() / 1000)}:F>` }
+                    ]
+                }
+            ]
+        });
     }
 
-    await Ticket.deleteOne({ _id: ticket._id });
-
-    await interaction.reply("✅ Ticket chiuso. Il canale sarà eliminato tra 5 secondi.");
-
-    setTimeout(() => {
-        interaction.channel.delete().catch(console.error);
-    }, 5000);
-}
+    await Ticket.deleteOne({ channelId: channel.id });
+    await channel.delete();
+};

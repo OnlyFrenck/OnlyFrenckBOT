@@ -13,8 +13,17 @@ module.exports = async (client) => {
         `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${config.channelId}&part=snippet,id&order=date&maxResults=1`
       );
 
-      const [latest] = response.data.items;
-      if (!latest || !latest.id) continue;
+      if (!response.data.items || response.data.items.length === 0) {
+        console.warn(`⚠️ Nessun video trovato per il canale ${config.channelId}`);
+        continue;
+      }
+
+      const latest = response.data.items[0];
+
+      if (!latest || !latest.id) {
+        console.warn(`⚠️ Video non valido o struttura mancante per il canale ${config.channelId}:`, latest);
+        continue;
+      }
 
       const videoId = latest.id.videoId || latest.id.playlistId || latest.id;
       const snippet = latest.snippet;
@@ -50,6 +59,9 @@ module.exports = async (client) => {
       const discordChannel = client.channels.cache.get(config.discordChannelId);
       if (discordChannel) {
         await discordChannel.send({ embeds: [embed], components: [row] });
+        console.log(`✅ Notifica inviata per ${snippet.title}`);
+      } else {
+        console.warn(`⚠️ Canale Discord non trovato per ID: ${config.discordChannelId}`);
       }
 
       await YouTubeVideo.create({
@@ -61,7 +73,11 @@ module.exports = async (client) => {
       });
 
     } catch (err) {
-      console.error(`Errore nel check del canale ${config.channelId}:`, err);
+      if (err.response) {
+        console.error(`❌ Errore API [${err.response.status}] per ${config.channelId}:`, err.response.data);
+      } else {
+        console.error(`❌ Errore generico per ${config.channelId}:`, err.message);
+      }
     }
   }
 };

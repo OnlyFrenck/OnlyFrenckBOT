@@ -26,14 +26,8 @@ const client = new Client({
 
     checkYouTube(client);
 
-    setInterval(() => checkYouTube(client), 60000);
+    setInterval(() => checkYouTube(client), 5 * 60 * 1000); // Controlla ogni 5 minuti
   } catch (error) {
     console.log(`Error: ${error}`);
   }
 })();
-
-client.on('messageCreate', (message) => {
-  if (message.content === '!ping') {
-    message.channel.send('@everyone');
-  }
-});

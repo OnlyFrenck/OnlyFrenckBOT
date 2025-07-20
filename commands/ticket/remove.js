@@ -1,4 +1,4 @@
-const { PermissionFlagsBits } = require("discord.js");
+const { PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const Ticket = require("../../models/Ticket");
 
 module.exports = {
@@ -18,12 +18,20 @@ module.exports = {
         const channel = interaction.channel;
 
         const overwrite = channel.permissionOverwrites.cache.get(user.id);
-        if (!overwrite) {
+        if (!overwrite || !overwrite.allow.has(PermissionFlagsBits.ViewChannel)) {
             return interaction.editReply("⚠️ Questo utente non ha accesso al ticket.");
         }
 
         await channel.permissionOverwrites.delete(user.id);
-        await interaction.editReply(`✅ <@${user.id}> è stato rimosso dal ticket.`);
+
+        const embed = new EmbedBuilder()
+            .setColor("Yellow")
+            .setTitle("👤 Utente rimosso dal ticket")
+            .setDescription(`<@${user.id}> è stato rimosso da <@${interaction.user.id}>.`)
+            .setTimestamp();
+
+        await channel.send({ embeds: [embed] });
+        await interaction.editReply(`✅ <@${user.id}> rimosso correttamente dal ticket.`);
     },
 
     name: "remove",
@@ -38,4 +46,4 @@ module.exports = {
     ],
     permissionsRequired: [PermissionFlagsBits.ManageChannels],
     botPermissions: [PermissionFlagsBits.ManageChannels]
-}
+};
