@@ -10,10 +10,17 @@ module.exports = (client) => {
 
     const eventName = eventFolder.replace(/\\/g, '/').split('/').pop();
 
-    client.on(eventName, async (arg) => {
+    client.on(eventName, async (...args) => {
       for (const eventFile of eventFiles) {
-        const eventFunction = require(eventFile);
-        await eventFunction(client, arg);
+        const eventModule = require(eventFile);
+
+        if (typeof eventModule === 'function') {
+          await eventModule(client, ...args); // caso 1: esporta una funzione
+        } else if (eventModule && typeof eventModule.callback === 'function') {
+          await eventModule.callback(client, ...args); // caso 2: esporta { callback: fn }
+        } else {
+          console.warn(`[WARNING] File evento non valido: ${eventFile}`);
+        }
       }
     });
   }

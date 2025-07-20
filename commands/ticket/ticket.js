@@ -21,7 +21,7 @@ const ticketTemplates = {
   }
 };
 
-const TICKET_CATEGORY_ID = config.assistenza; // ID della categoria dei ticket
+const TICKET_CATEGORY_ID = config.assistenza.id; // ID della categoria dei ticket
 
 module.exports = {
   name: 'ticket',

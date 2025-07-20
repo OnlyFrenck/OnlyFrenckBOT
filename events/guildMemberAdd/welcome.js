@@ -1,5 +1,6 @@
 const { Client, GuildMember, EmbedBuilder } = require('discord.js');
 const AutoRole = require('../../models/AutoRole');
+const config = require('../../config/server/channels.json');
 
 /**
  *
@@ -18,7 +19,7 @@ module.exports = async (client, member) => {
     }
 
     // Canale di benvenuto (puoi settarlo staticamente o dinamicamente)
-    const welcomeChannelId = '1274036846648623186'; // Sostituisci con il tuo ID canale
+    const welcomeChannelId = config.categoriaOnlyFrenck.welcome.id; // Sostituisci con il tuo ID canale
     const welcomeChannel = guild.channels.cache.get(welcomeChannelId);
     if (!welcomeChannel) return;
 

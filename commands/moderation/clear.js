@@ -1,6 +1,7 @@
 const { PermissionFlagsBits, ChannelType } = require('discord.js');
+const config = require('../../config/server/channels.json');
 
-const LOG_CHANNEL_ID = '1274037456748154961'; // ← Sostituisci con l'ID del tuo canale log
+const LOG_CHANNEL_ID = config.categoriaStaff.log.id; // ← Sostituisci con l'ID del tuo canale log
 
 module.exports = {
     /**

@@ -3,6 +3,7 @@ const { Client, IntentsBitField } = require('discord.js');
 const mongoose = require('mongoose');
 const eventHandler = require('./handlers/eventHandler');
 const checkYouTube = require('./utils/checkYouTube');
+const config = require('./config/server/channels.json');
 
 const client = new Client({
   intents: [
@@ -22,11 +23,11 @@ const client = new Client({
 
     eventHandler(client);
 
-    client.login(process.env.TOKEN);
-
     checkYouTube(client);
 
-    setInterval(() => checkYouTube(client), 5 * 60 * 1000); // Controlla ogni 5 minuti
+    setInterval(() => checkYouTube(client), 20 * 60 * 1000); // Controlla ogni 20 minuti
+
+    client.login(process.env.TOKEN);
   } catch (error) {
     console.log(`Error: ${error}`);
   }
