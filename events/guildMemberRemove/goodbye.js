@@ -18,7 +18,7 @@ module.exports = async (client, member) => {
     const embed = new EmbedBuilder()
       .setColor(0xff0000)
       .setTitle('👋 Utente uscito')
-      .setDescription(`**${member.user.tag}** ha lasciato il server ed è diventato un mone.`)
+      .setDescription(`**${member.user.tag}** ha lasciato il server ed è diventato un mone. Benvenuto nella cerchia.`)
       .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
       .setFooter({ text: `Membri rimasti: ${guild.memberCount}` })
       .setTimestamp();

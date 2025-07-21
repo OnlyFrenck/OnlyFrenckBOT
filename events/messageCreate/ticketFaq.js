@@ -1,4 +1,4 @@
-const Ticket = require("../models/Ticket"); // o il path corretto
+const Ticket = require("../../models/Ticket"); // o il path corretto
 
 const faq = [
   {

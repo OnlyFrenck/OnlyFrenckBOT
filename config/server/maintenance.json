@@ -1,0 +1,22 @@
+{
+  "bot": {
+    "enabled": false,
+    "message": "⚠️ Il bot è momentaneamente in manutenzione, riprova più tardi!",
+    "whitelist": [
+      "1159513992860020806",
+      "1181360952659148843",
+      "1326249138840666114"
+    ]
+  },
+  "servers": {
+    "1274029630961221756": {
+      "enabled": false,
+      "message": "⚠️ Questo server è in manutenzione, riprova più tardi!",
+      "whitelist": [
+        "1159513992860020806",
+        "1181360952659148843",
+        "1326249138840666114"
+      ]
+    }
+  }
+}
